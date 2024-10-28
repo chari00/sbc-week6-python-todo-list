@@ -1,4 +1,4 @@
-
+import time
 import json
 import sys
 
@@ -31,11 +31,13 @@ def view_task():
             print(f'My Todo list:')
             for task in tasks:
                 print(task)
-                # print('\n')
     except Exception as e:
         print(e)
 
-
+def update_task(task_id, new_description, new_status):
+    pass
+    
+  
 print('Welcome to the To-Do List App')
 print('Please choose an option.')
 
@@ -47,11 +49,13 @@ while True:
     print('5. Exit')
     choices = input('Please enter the number of your chosen option: ')
     try:
-        choices == int(choices) 
         match choices:
             case '1':
                 #function to write/ADD a task
                 description = input('Write a task: ')
+                print('Adding...')
+                time.sleep(2)
+                print('Task added')
                 add_task(description)
                 print('\n')
                 
@@ -61,8 +65,11 @@ while True:
                     
             case '3':
                 #write a function to edit/update the task.json file
-                def update_task():
-                    pass
+                task_id = input('Enter the id that you want to edit: ')
+                new_description = input('New task description: ')
+                new_status = input('Enter task status: ')
+                update_task(task_id, new_description, new_status)
+                    
             case '4':
                 #write a function that delete the existing todo from task.json file
                 def delete_task():
@@ -70,9 +77,13 @@ while True:
             case '5':
                 # exit the App using python exit command
                     print('Exiting the To-Do App...')
+                    time.sleep(2)
                     print('Done.')
+                    time.sleep(2)
                     sys.exit(0)
-            # case _:
-            #     print('Enter a number from the choices.')
+            case _:
+                if choices <=5:
+                    print('Enter a number from the choices.')
+                
     except Exception as e:
         print('Invalid choice. Please enter a number from the choices.')
