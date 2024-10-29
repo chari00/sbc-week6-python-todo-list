@@ -1,6 +1,10 @@
-import time
+import time 
 import json
 import sys
+import os
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def add_task(description):
     #initialize a placeholder to hold the task
@@ -16,7 +20,7 @@ def add_task(description):
     #set the structure on how the task will be appended.
     new_task = {'id': new_id, 'description': description, 'status': 'pending'}
     tasks.append(new_task)
-    # Save updated tasks back to the JSON file
+    clear_screen()
     with open('task.json', 'w') as task_file:
         json.dump(tasks, task_file, indent=4)
 
@@ -35,8 +39,39 @@ def view_task():
         print(e)
 
 def update_task(task_id, new_description, new_status):
-    pass
+    try:
+        #open the task.json file in read mode
+        with open('task.json', 'r') as task_file:
+            #load the existing json dictionary to tasks
+            tasks = json.load(task_file)
+        # Check if the task_id exists in the list
+       
+        # Find the task with the matching id using python build-in function next()
+        task_to_update = next((task for task in tasks if task['id'] == task_id), None)
+        if task_to_update: #check if the task id is existing/true
+            # Update the value of the task
+            task_to_update['description'] = new_description
+            task_to_update['status'] = new_status
+            print('updating...')
+            time.sleep(1)
+            print(f"Updated task: {task_to_update}")
+        else:
+            print(f"No task found with id {task_id}")
+            time.sleep(2)
+            print("Updating failed.")
+       
+            
+            # Save updated tasks back to the JSON file
+        with open('task.json', 'w') as task_file:
+            json.dump(tasks, task_file, indent=4)
+
+        time.sleep(1)
+        print("Task updated successfully")
+        time.sleep(2)
     
+    except Exception as e:
+        print(e)
+   
   
 print('Welcome to the To-Do List App')
 print('Please choose an option.')
@@ -48,6 +83,7 @@ while True:
     print('4. Delete a Task')
     print('5. Exit')
     choices = input('Please enter the number of your chosen option: ')
+    time.sleep(1)
     try:
         match choices:
             case '1':
@@ -56,20 +92,31 @@ while True:
                 print('Adding...')
                 time.sleep(2)
                 print('Task added')
+                time.sleep(1)
                 add_task(description)
                 print('\n')
-                
+                                
             case '2':
                 #function that read the task.json file
                 view_task()
-                    
+                print('\n')
+                                   
             case '3':
-                #write a function to edit/update the task.json file
-                task_id = input('Enter the id that you want to edit: ')
-                new_description = input('New task description: ')
-                new_status = input('Enter task status: ')
+                #function to edit/update the task.json file
+                while True:
+                    try:
+                        task_id = int(input('Enter the id that you want to edit: '))
+                        time.sleep(1)
+                        break  # Exit the loop if input is valid
+                    except:
+                        print('Invalid id, please choose from the options above.')
+
+                new_description = input('New task description: ').title()
+                time.sleep(1)
+                new_status = input('Enter task status: ').lower()
                 update_task(task_id, new_description, new_status)
-                    
+                print('\n')
+                                   
             case '4':
                 #write a function that delete the existing todo from task.json file
                 def delete_task():
@@ -80,7 +127,7 @@ while True:
                     time.sleep(2)
                     print('Done.')
                     time.sleep(2)
-                    sys.exit(0)
+                    sys.exit(0) #exit the program without any issue.
             case _:
                 if choices <=5:
                     print('Enter a number from the choices.')
