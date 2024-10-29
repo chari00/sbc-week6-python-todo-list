@@ -45,7 +45,6 @@ def update_task(task_id, new_description, new_status):
             #load the existing json dictionary to tasks
             tasks = json.load(task_file)
         # Check if the task_id exists in the list
-       
         # Find the task with the matching id using python build-in function next()
         task_to_update = next((task for task in tasks if task['id'] == task_id), None)
         if task_to_update: #check if the task id is existing/true
@@ -65,6 +64,34 @@ def update_task(task_id, new_description, new_status):
             print(f"No task found with id {task_id}")
             time.sleep(2)
             print("Updating failed.")
+        time.sleep(2)
+    
+    except Exception as e:
+        print(e)
+
+def delete_task():
+    try:
+        #open the task.json file in read mode
+        with open('task.json', 'r') as task_file:
+            #load the existing json dictionary to tasks
+            tasks = json.load(task_file)      
+        # Find the task with the matching id using python build-in function next()
+        task_to_delete = next((task for task in tasks if task['id'] == task_id), None)
+        if task_to_delete: #check if the task id is existing/true
+            # Update the value of the task
+            tasks.pop(task_to_delete)
+            print('deleting...')
+            time.sleep(1)
+            # Save updated tasks back to the JSON file
+            with open('task.json', 'w') as task_file:
+                json.dump(tasks, task_file, indent=4)
+
+            time.sleep(1)
+            print("Task deleted successfully")
+        else:
+            print(f"No task found with id {task_id}")
+            time.sleep(2)
+            print("Deletion failed.")
         time.sleep(2)
     
     except Exception as e:
@@ -115,9 +142,9 @@ while True:
                 print('\n')
                                    
             case '4':
-                #write a function that delete the existing todo from task.json file
-                def delete_task():
-                    pass
+                #function that delete the existing todo from task.json file
+                delete_task()
+                    
             case '5':
                 # exit the App using python exit command
                     print('Exiting the To-Do App...')
