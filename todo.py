@@ -55,23 +55,20 @@ def update_task(task_id, new_description, new_status):
             print('updating...')
             time.sleep(1)
             print(f"Updated task: {task_to_update}")
+            # Save updated tasks back to the JSON file
+            with open('task.json', 'w') as task_file:
+                json.dump(tasks, task_file, indent=4)
+
+            time.sleep(1)
+            print("Task updated successfully")
         else:
             print(f"No task found with id {task_id}")
             time.sleep(2)
             print("Updating failed.")
-       
-            
-            # Save updated tasks back to the JSON file
-        with open('task.json', 'w') as task_file:
-            json.dump(tasks, task_file, indent=4)
-
-        time.sleep(1)
-        print("Task updated successfully")
         time.sleep(2)
     
     except Exception as e:
         print(e)
-   
   
 print('Welcome to the To-Do List App')
 print('Please choose an option.')
@@ -134,3 +131,5 @@ while True:
                 
     except Exception as e:
         print('Invalid choice. Please enter a number from the choices.')
+        print('\n')
+        time.sleep(2)
