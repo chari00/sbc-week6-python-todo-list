@@ -15,7 +15,7 @@ def add_task(description):
             tasks = json.load(task_file)
     except:
         pass  
-    # Create a new task - use max() build-in method in python to increment the id number
+    # Create a new task - use max() built-in method in python to increment the id number
     new_id = max([task['id'] for task in tasks], default=0) + 1
     #set the structure on how the task will be appended.
     new_task = {'id': new_id, 'description': description, 'status': 'pending'}
@@ -45,7 +45,7 @@ def update_task(task_id, new_description, new_status):
             #load the existing json dictionary to tasks
             tasks = json.load(task_file)
         # Check if the task_id exists in the list
-        # Find the task with the matching id using python build-in function next()
+        # Find the task with the matching id using python built-in function next()
         task_to_update = next((task for task in tasks if task['id'] == task_id), None)
         if task_to_update: #check if the task id is existing/true
             # Update the value of the task
@@ -69,7 +69,7 @@ def update_task(task_id, new_description, new_status):
     except Exception as e:
         print(e)
 
-def delete_task():
+def delete_task(task_id):
     try:
         #open the task.json file in read mode
         with open('task.json', 'r') as task_file:
@@ -78,8 +78,8 @@ def delete_task():
         # Find the task with the matching id using python build-in function next()
         task_to_delete = next((task for task in tasks if task['id'] == task_id), None)
         if task_to_delete: #check if the task id is existing/true
-            # Update the value of the task
-            tasks.pop(task_to_delete)
+            # remove the task from the file
+            tasks.remove(task_to_delete)
             print('deleting...')
             time.sleep(1)
             # Save updated tasks back to the JSON file
@@ -143,7 +143,15 @@ while True:
                                    
             case '4':
                 #function that delete the existing todo from task.json file
-                delete_task()
+                while True:
+                    try:
+                        task_id = int(input('Enter the id that you want to delete: '))
+                        time.sleep(1)
+                        break  # Exit the loop if input is valid
+                    except:
+                        print('Invalid id, please choose from the options above.')
+                delete_task(task_id)
+                print('\n')
                     
             case '5':
                 # exit the App using python exit command
