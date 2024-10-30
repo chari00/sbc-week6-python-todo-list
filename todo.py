@@ -20,9 +20,9 @@ def add_task(description):
     #set the structure on how the task will be appended.
     new_task = {'id': new_id, 'description': description, 'status': 'pending'}
     tasks.append(new_task)
-    clear_screen()
     with open('task.json', 'w') as task_file:
         json.dump(tasks, task_file, indent=4)
+    clear_screen()
 
 
 def view_task():
@@ -112,11 +112,11 @@ while True:
         match choices:
             case '1':
                 #function to write/ADD a task
-                description = input('Write a task: ')
+                description = input('Write a task: ').title()
                 print('Adding...')
                 time.sleep(2)
                 print('Task added')
-                time.sleep(1)
+                time.sleep(2)
                 add_task(description)
                 print('\n')
                                 
